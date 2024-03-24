@@ -14,4 +14,18 @@ pipeline {
                     dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
+
+        stage('Trivy') {
+            steps {
+                 sh "trivy fs ."
+            }
+        }
+        
+         stage('Build & deploy') {
+            steps {
+                 sh "docker-compose up -d"
+            }
+        }
+    }
+}
         
